@@ -20,6 +20,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const DRAG_THRESHOLD = 6; // px before a press becomes a drag (lets clicks pass through)
+const SWIPE_VELOCITY = 0.3; // px/ms — anything faster than this counts as a flick (~300 px/sec)
+const SWIPE_DISTANCE_FRAC = 0.18; // share of `stride` that counts as a deliberate drag
+const VELOCITY_FRESHNESS_MS = 100; // ignore velocity if last move was longer ago than this
 
 type Preview =
   | { kind: "marquee"; images: string[] }
@@ -242,6 +245,9 @@ export function CaseStudies() {
     pointerX: number;
     motionX: number;
     active: boolean;
+    lastMoveX: number;
+    lastMoveTime: number;
+    lastVelocity: number; // px/ms; positive = moving right
   } | null>(null);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -251,6 +257,9 @@ export function CaseStudies() {
       pointerX: e.clientX,
       motionX: x.get(),
       active: false,
+      lastMoveX: e.clientX,
+      lastMoveTime: performance.now(),
+      lastVelocity: 0,
     };
     // Flip the cursor the moment the press registers, regardless of whether
     // the user goes on to drag. Reset happens in `onPointerEnd` below.
@@ -270,13 +279,26 @@ export function CaseStudies() {
         /* some platforms throw if already captured */
       }
     }
-    if (d.active) x.set(d.motionX + delta);
+    if (d.active) {
+      // Update velocity sample BEFORE the position update so we always have
+      // a fresh reading at the moment of release.
+      const now = performance.now();
+      const dt = now - d.lastMoveTime;
+      if (dt > 0) d.lastVelocity = (e.clientX - d.lastMoveX) / dt;
+      d.lastMoveX = e.clientX;
+      d.lastMoveTime = now;
+
+      x.set(d.motionX + delta);
+    }
   };
 
   const onPointerEnd = (e: ReactPointerEvent<HTMLDivElement>) => {
     const d = dragRef.current;
     if (!d) return;
     const wasDrag = d.active;
+    const motionXAtStart = d.motionX;
+    const lastVelocity = d.lastVelocity;
+    const lastMoveTime = d.lastMoveTime;
     dragRef.current = null;
     // Reset cursor on every release, whether the press turned into a drag or not.
     setIsClicked(false);
@@ -290,11 +312,26 @@ export function CaseStudies() {
       /* safe to ignore */
     }
 
-    // Snap to the nearest stride boundary, then animate to it with the same
-    // spring as arrow navigation so drag and click feel consistent.
-    const snapped = Math.round(x.get() / stride) * stride;
-    targetRef.current = snapped;
-    animationRef.current = animateMotion(x, snapped, {
+    // Decide direction: a fast flick OR a deliberate drag triggers a card
+    // change; everything else snaps back to where the drag started.
+    // Velocity is ignored if the last pointer move was too long ago — the
+    // user paused before releasing, so we shouldn't credit that earlier flick.
+    const dx = x.get() - motionXAtStart; // negative = leftward = advance forward
+    const v =
+      performance.now() - lastMoveTime < VELOCITY_FRESHNESS_MS
+        ? lastVelocity
+        : 0;
+
+    let direction: -1 | 0 | 1 = 0; // 1 = next card (forward), -1 = previous
+    if (v < -SWIPE_VELOCITY || dx < -SWIPE_DISTANCE_FRAC * stride) {
+      direction = 1;
+    } else if (v > SWIPE_VELOCITY || dx > SWIPE_DISTANCE_FRAC * stride) {
+      direction = -1;
+    }
+
+    const target = motionXAtStart - direction * stride;
+    targetRef.current = target;
+    animationRef.current = animateMotion(x, target, {
       type: "spring",
       stiffness: 220,
       damping: 32,

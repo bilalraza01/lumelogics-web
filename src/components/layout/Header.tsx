@@ -35,6 +35,24 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // Smooth-scroll to anchor sections, accounting for the floating navbar.
+  // We do this in JS rather than relying on `scroll-behavior: smooth` because
+  // ancestor `overflow` rules in the layout were breaking the CSS approach.
+  const scrollToHash = (
+    e: React.MouseEvent<HTMLElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (!el) return;
+    const top =
+      el.getBoundingClientRect().top + window.scrollY - 96; // 96 = nav height + breathing room
+    window.scrollTo({ top, behavior: "smooth" });
+    history.replaceState(null, "", href);
+    setOpen(false);
+  };
+
   return (
     <>
       <header className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
@@ -49,6 +67,7 @@ export function Header() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={(e) => scrollToHash(e, item.href)}
                 className="text-[13px] text-muted transition-colors hover:text-brand-600"
               >
                 {item.label}
@@ -58,7 +77,12 @@ export function Header() {
 
           {/* Right cluster: Book an Intro + (mobile-only) hamburger. */}
           <div className="flex items-center gap-1">
-            <ButtonLink href="#contact" size="sm" shape="pill">
+            <ButtonLink
+              href="#contact"
+              size="sm"
+              shape="pill"
+              onClick={(e) => scrollToHash(e, "#contact")}
+            >
               Book an Intro
             </ButtonLink>
 
@@ -109,7 +133,7 @@ export function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={() => setOpen(false)}
+                onClick={(e) => scrollToHash(e, item.href)}
                 className="border-b border-border py-4 text-[22px] font-semibold tracking-tight text-foreground"
               >
                 {item.label}

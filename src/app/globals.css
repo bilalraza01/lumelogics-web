@@ -47,6 +47,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  /* Smooth-scroll for anchor links (Services / Problem / Case Studies) and
+     leave room above each target so the floating header doesn't overlap. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 html,
 body {
   background: var(--background);
