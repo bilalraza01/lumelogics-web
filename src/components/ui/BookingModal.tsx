@@ -11,7 +11,7 @@ import {
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const CALENDLY_URL = "https://calendly.com/bilal-raza-lumelogics/30min";
+const CALENDLY_URL = "https://calendly.com/bilal-lumelogics/30min";
 
 type BookingContextValue = {
   isOpen: boolean;
