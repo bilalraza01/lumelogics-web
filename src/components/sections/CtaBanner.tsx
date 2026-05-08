@@ -1,8 +1,12 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/ui/BookingModal";
 
 export function CtaBanner() {
+  const booking = useBooking();
   return (
     <section id="contact" className="bg-background py-20">
       <Container>
@@ -28,9 +32,9 @@ export function CtaBanner() {
               produce a deployable roadmap your team can ship against.
             </p>
             <div className="mt-7">
-              <ButtonLink href="#" variant="onBrand">
+              <Button onClick={booking.open} variant="onBrand">
                 Book an Intro <ArrowRight size={16} />
-              </ButtonLink>
+              </Button>
             </div>
           </div>
         </div>

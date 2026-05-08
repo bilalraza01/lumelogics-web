@@ -16,7 +16,8 @@ import {
   type AnimationPlaybackControls,
 } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/ui/BookingModal";
 import { cn } from "@/lib/utils";
 
 const DRAG_THRESHOLD = 6; // px before a press becomes a drag (lets clicks pass through)
@@ -119,6 +120,7 @@ function CaseCard({
   data: Case;
   width: number;
 }) {
+  const booking = useBooking();
   const style: CSSProperties = { width, height: CARD_HEIGHT };
   return (
     <div
@@ -146,9 +148,9 @@ function CaseCard({
         </div>
         <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
           <span className="text-sm text-white/70">Want results like these?</span>
-          <ButtonLink href="#contact" variant="onBrand" size="sm">
+          <Button onClick={booking.open} variant="onBrand" size="sm">
             Book an Intro <ArrowRight size={14} />
-          </ButtonLink>
+          </Button>
         </div>
       </div>
     </div>

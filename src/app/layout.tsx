@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+import Script from "next/script";
+import { BookingProvider } from "@/components/ui/BookingModal";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -24,7 +26,16 @@ export default function RootLayout({
       lang="en"
       className={`${figtree.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <BookingProvider>{children}</BookingProvider>
+        {/* Loaded after hydration so Calendly can find the inline-widget
+            element (rendered by BookingProvider) and preload the iframe in
+            the background — opening the modal is then instant. */}
+        <Script
+          src="https://assets.calendly.com/assets/external/widget.js"
+          strategy="afterInteractive"
+        />
+      </body>
     </html>
   );
 }

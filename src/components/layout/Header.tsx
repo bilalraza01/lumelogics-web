@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/ui/BookingModal";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,7 @@ const NAV = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const booking = useBooking();
 
   // Lock body scroll while the mobile menu is open.
   useEffect(() => {
@@ -77,14 +79,16 @@ export function Header() {
 
           {/* Right cluster: Book an Intro + (mobile-only) hamburger. */}
           <div className="flex items-center gap-1">
-            <ButtonLink
-              href="#contact"
+            <Button
               size="sm"
               shape="pill"
-              onClick={(e) => scrollToHash(e, "#contact")}
+              onClick={() => {
+                setOpen(false);
+                booking.open();
+              }}
             >
               Book an Intro
-            </ButtonLink>
+            </Button>
 
             <button
               type="button"

@@ -16,7 +16,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/ui/BookingModal";
 import { cn } from "@/lib/utils";
 
 type StatCardProps = {
@@ -88,6 +89,8 @@ export function Hero() {
     damping: 25,
     mass: 0.6,
   });
+
+  const booking = useBooking();
 
   return (
     <section className="relative overflow-hidden pt-32 pb-20 sm:pt-36">
@@ -169,9 +172,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.25 }}
               className="mt-8"
             >
-              <ButtonLink href="#contact">
+              <Button onClick={booking.open}>
                 Start your AI rollout <ArrowRight size={16} />
-              </ButtonLink>
+              </Button>
             </motion.div>
           </div>
 
