@@ -11,7 +11,7 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "Lumelogics — AI Automation Consultancy",
+  title: "Lumelogics | AI Automation Consultancy",
   description:
     "We help businesses automate the repetitive and amplify the strategic with custom AI workflows, agents, and integrations.",
 };

@@ -53,7 +53,7 @@ const CASES: Case[] = [
     brand: "MMG Consultancies",
     logo: "/clients/mmg.png",
     headline: "AI workflows at MMG Consultancies",
-    body: "Internal automations that compress the time it takes to deliver client work — without giving up control or visibility.",
+    body: "Internal automations that compress the time it takes to deliver client work, without giving up control or visibility.",
     preview: {
       kind: "marquee",
       images: ["/card-4.avif", "/card-5.avif", "/card-6.avif"],

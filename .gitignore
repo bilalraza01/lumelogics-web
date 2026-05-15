@@ -42,3 +42,9 @@ next-env.d.ts
 
 # local reference material (not for repo)
 /.reference/
+
+# per-session context dumps — see .context/context.md (handwritten by Claude)
+/.context/
+
+# Claude Code local working state — never commit.
+.claude/

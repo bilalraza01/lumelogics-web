@@ -161,9 +161,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-md text-[15px] leading-relaxed text-muted"
             >
-              We help operators automate the repetitive and amplify the
-              strategic — from discovery and roadmap through to deployed,
-              monitored AI workflows.
+              We identify where AI & automation will save you the most time and money - then we build it.
             </motion.p>
 
             <motion.div

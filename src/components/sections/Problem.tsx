@@ -74,7 +74,7 @@ export function Problem() {
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
             Adopting AI surfaces a long tail of questions about ROI, security,
-            and team readiness. We&apos;ve seen them all — and we have answers.
+            and team readiness. We&apos;ve seen them all, and we have answers.
           </p>
         </div>
       </Container>
