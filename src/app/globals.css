@@ -18,6 +18,14 @@
   --brand-800: #3d1681;
   --brand-900: #2a0f5c;
   --brand-950: #190736;
+
+  /* Positive / progress accent for the audit deliverable: "done" journey
+     steps, "complete" session badges, "available" deliverable pulse. Kept
+     distinct from brand purple (which marks the "active" / current state)
+     and AA on the warm background. */
+  --success: #16794a;
+  --success-soft: #e7f3ec;
+  --info: #1e6fb8;
 }
 
 @theme inline {
@@ -38,6 +46,10 @@
   --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
   --color-brand-950: var(--brand-950);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-info: var(--info);
 
   --font-sans: var(--font-figtree);
 }
@@ -154,4 +166,43 @@ body {
     100% 100%,
     0 100%
   );
+}
+
+/* Slow pulse for the "now available" deliverable dot. */
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.65);
+  }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.9s ease-in-out infinite;
+}
+
+/* Comprehensive-report print rules. The report page wraps itself in
+   `.print-doc`; everything tagged data-print-hide (shell nav/footer, the
+   sticky TOC) drops out and the document goes black-on-white, expanded. */
+@media print {
+  .print-doc [data-print-hide] {
+    display: none !important;
+  }
+  .print-doc {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .print-doc * {
+    box-shadow: none !important;
+  }
+  .print-doc .print-break-avoid {
+    break-inside: avoid;
+  }
+  .print-doc a {
+    text-decoration: none !important;
+    color: #000 !important;
+  }
 }
