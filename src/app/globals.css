@@ -59,6 +59,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Tailwind v4's Preflight no longer sets cursor:pointer on buttons.
+   Restore it site-wide; disabled buttons keep the default arrow. */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
 html {
   /* Smooth-scroll for anchor links (Services / Problem / Case Studies) and
      leave room above each target so the floating header doesn't overlap. */
