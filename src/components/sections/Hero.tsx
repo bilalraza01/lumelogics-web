@@ -16,7 +16,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { useBooking } from "@/components/ui/BookingModal";
 import { cn } from "@/lib/utils";
 
@@ -168,11 +168,14 @@ export function Hero() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="mt-8"
+              className="mt-8 flex flex-col items-center gap-3 sm:flex-row"
             >
               <Button onClick={booking.open}>
                 Start your AI rollout <ArrowRight size={16} />
               </Button>
+              <ButtonLink href="/audit/demo" variant="outline">
+                See a sample audit <ArrowUpRight size={16} />
+              </ButtonLink>
             </motion.div>
           </div>
 
