@@ -46,7 +46,7 @@ const CASES: Case[] = [
     body: "Custom workflows that automate the repetitive and free the team to focus on the work that actually moves revenue.",
     preview: {
       kind: "marquee",
-      images: ["/card-1.avif", "/card-2.avif", "/card-3.avif"],
+      images: ["/card-1.webp", "/card-2.webp", "/card-3.webp"],
     },
   },
   {
@@ -56,7 +56,7 @@ const CASES: Case[] = [
     body: "Internal automations that compress the time it takes to deliver client work, without giving up control or visibility.",
     preview: {
       kind: "marquee",
-      images: ["/card-4.avif", "/card-5.avif", "/card-6.avif"],
+      images: ["/card-4.avif", "/card-5.webp", "/card-6.avif"],
     },
   },
   {
@@ -64,7 +64,7 @@ const CASES: Case[] = [
     logo: "/clients/octa.png",
     headline: "AI for Octa Accountants",
     body: "Document-heavy accounting workflows automated end-to-end, with humans approving the calls that matter.",
-    preview: { kind: "image", image: "/card-7.avif" },
+    preview: { kind: "image", image: "/card-7.webp" },
   },
 ];
 
